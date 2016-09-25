@@ -1,70 +1,85 @@
-# Servicestack Robocop
+# ServiceStack.IntroSpec.ServiceCop
 
-### You have 15 seconds to comply... ;)
+#### You have 20 seconds to comply... ;)
 
-Robocop is a (micro)service validator for servicestack
+ServiceStack.IntroSpec.ServiceCop is a service validator for servicestack.
 
-## Quickstart
+Built on top of our api spec plugin, [IntroSpec](https://github.com/MacLeanElectrical/servicestack-introspec) and 
+our service registry, [Consul Service Discovery](https://github.com/MacLeanElectrical/servicestack-discovery-consul), 
+ServiceCop can be configured to enforce and validate consistency in your api services.
 
-install the package 
+The packaged rules include naming, documentation, contract and versioning, unbounded result checks, 
+plugins and security but are configurable depending on your requirements.
 
+## How it works
 
-## Notes
+When a service is registered with a service registry, which we default to our ServiceStack.Discovery.Consul plugin,
+a trigger is fired which calls ServiceCop for validation.
 
-Functions:
+ServiceCop then requests the `/spec` endpoint of our IntroSpec plugin from the registered service.
+Should the service not implement IntroSpec, it will be suspended from the service registry and therefore be unavailable
+for use by other services.
 
-1. intercepts new service registrations (from consul)
-2. Checks registration against rules list
-3. Fall back to default rules (If no specific rules for service like exceptional cases)
-4. On failure either hold for review, notify service contact or if contact missing, notify robocop admin
-5. Provides failure log
-6. Provides success log
-7. 
+Once the spec is downloaded, it will then be validated using the set of validation rules configured for this service.
+Should a service fail any of these rules, the service will again be suspended from the service registry with the 
+failure message and a notification will be send to the `ApiContact` defined in the api spec.
 
-Types of rules
+In addition this service contains endpoints to validate services during development or deployment to ensure 
+they comply with the rules prior to deployment. This promotes consistency as distributed teams are developing 
+api services.
 
-1. [Naming] all requests postfixed 'request' regex?
-2. [Naming] all responses postfixed 'response'
-3. [Naming] complexity, no single word requests *Service*Request is likely to be too simplistic and cause collisions
-3. [Naming] request naming conflict detection (use of oversimplistic requests like 'status')
-3. [List] no unbounded enumerable results, looks for skip/take or page/size or index/
-4. [List] no unbounded enumerable properties
-5. [Plugins] min viable plugin list 
-6. [Snapshots] no breaking changes
-7. [Versioning] semantic versioning ??
-8. [Documentation] min viable documentation
-9. [Security] min viable security
-10. [Dependency] track and visualise service dependency
-13. [Dependency] warn about external requests with no active service
+## Example rules
 
-11. [Custom] Arbitrary json key : value checks on service definitions
+The rules enforced are intended to be bespoke to each implementation and exceptions to each rule can be added on a DTO by DTO basis, 
+but some examples of rules are included below.
 
+### Plugins
 
-All customisable rules stored as config (which can use consul)
+By default, this service expects that services must have at least two plugins installed, the first is service discovery, without
+which the validation would not be called and the second is IntroSpec which provides a consistent model with which to validate services.
 
-Hold functionality - ability to require human check/exception if service fails non-absolute rules
+Additional plugins and minimum versions can be enforced among services 
 
-Non-absolute rules (scoring?)
+ + Security : By default, all our api's must include our IdentityServer plugin, to us, there is no such thing for us as an anonymous api request.
+ + Rate-limit : Again by default, our api's must include as standard our rate-limit plugin, regular data scraping using api's is a sign that an api is being mis-used for aggregation purposes.
+ + Correlation : By default, our api's must include our correlation plugin, this tracks dependency chains between service to service requests and provides circuit-breakers should services introduce circular dependencies or overly long call-chains.
+ + Versioning : Plugin upgrades can be either enforced through minimum required versions or through early notification to api maintainers for planned obsolescence.
+ + ConsulAppSettings : Hard-coding configuration data in service instances forces re-deployments over dynamic updates, enforce this plugin is added to encourage dynamic service configuration.
 
-health/perf checks (warnings when service reponse rates drop)
+### Naming
 
+Naming uniqueness and consistency aid discoverability.
 
-plugin checks
+ + Request Prefix-Postfix : All requests should have a prefix or postfix, for example, postfixed 'Request'
+ + Response Prefix-Postfix : All responses should have a prefix of postfix, for example postfixed 'Response'
+ + Request/Response matching pairs: All request/responses should match without a prefix/postfix
+ + Request/Response complexity : All requests should have a minimum complexity to avoid potential name clashes, for example `GetStatus` or `GetData` are too broad to be of use in a global api catalogue and will likely clash as more services are added.
+ + Request Verbs : Requests using verbs in the name [[Get, Post, Put, Delete]] should implement the matching verb in the service. 
+ + Request Uniqueness : Avoid naming conflicts between services
 
-1. introspec (a must for contact details and service documentation/snapshot)
-   2. Add to introspec, the scanning of any external requests and list them (this will help with dependency checks)
+### Documentation
 
-introspec will list the plugins registered which should include configurable list
+Promote minimum acceptable documentation standards for the benefit of api consumers.
 
-ours is
+ + DTO Description : Every DTO should contain a description of minimum length
+ + DTO Property Descriptions : Every DTO property should contain a description
+ + DTO Required : Each service endpoint can be called using only the properties marked as required and if a validation error occurs, raise a validation failure.
 
-identity service (security)
-consul config
-consul discovery (duh how would we know it registered otherwise)
-ratelimit
+### Lists
 
-Test endpoints - outputs validation report for pre-release/dev checking
+Encourage predictable server load and api responsiveness.
 
-1. url
-2. introspec json
+ + Unbounded results : All responses that return IEnumerable results can be checked for implementations of result paging. It is generally undesirable to have api DTO's that can return an unlimited set of results.
 
+### Contracts
+
+Eliminate or ease versioning problems for API consumers.
+
+ + Non-breaking changes : ServiceCop can store a snapshot of each DTO upon successful service validation. Should a DTO be changed with breaking changes such as the removal or type change of a property, the DTO can fail validation enforcing backwards-compatibility.
+ + DTO relocation : A DTO must be globally unique, in the event of a DTO being moved, an exception can be raised which first suspends the service pending verification and if accepted, will force the DTO requests to be redirected to the new service and a notification sent to the existing service ApiContact to remove the obsolete/moved DTO.
+
+### Dependencies
+
+Identify potential api circular-dependencies and obsolete DTO's
+
+ + Each spec can output the external DTO's and their AssemblyVersion to enforce min versions or issue planned obsolescence notifications.
