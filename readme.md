@@ -28,6 +28,8 @@ In addition this service contains endpoints to validate services during developm
 they comply with the rules prior to deployment. This promotes consistency as distributed teams are developing 
 api services.
 
+![Overview](assets/ServiceCop_Overview.png)
+
 ## Example rules
 
 The rules enforced are intended to be bespoke to each implementation and exceptions to each rule can be added on a DTO by DTO basis, 
@@ -40,11 +42,11 @@ which the validation would not be called and the second is IntroSpec which provi
 
 Additional plugins and minimum versions can be enforced among services 
 
- + Security : By default, all our api's must include our IdentityServer plugin, to us, there is no such thing for us as an anonymous api request.
+ + Security : By default, all our api's must include our IdentityServer plugin, to us, there is no such thing as an anonymous api request.
  + Rate-limit : Again by default, our api's must include as standard our rate-limit plugin, regular data scraping using api's is a sign that an api is being mis-used for aggregation purposes.
  + Correlation : By default, our api's must include our correlation plugin, this tracks dependency chains between service to service requests and provides circuit-breakers should services introduce circular dependencies or overly long call-chains.
  + Versioning : Plugin upgrades can be either enforced through minimum required versions or through early notification to api maintainers for planned obsolescence.
- + ConsulAppSettings : Hard-coding configuration data in service instances forces re-deployments over dynamic updates, enforce this plugin is added to encourage dynamic service configuration.
+ + ConsulAppSettings : Hard-coding configuration data in service instances forces re-deployments over dynamic updates, we enforce this plugin to encourage use of dynamic service configuration.
 
 ### Naming
 
