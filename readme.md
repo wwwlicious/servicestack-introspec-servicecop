@@ -22,9 +22,9 @@ for use by other services.
 
 Once the spec is downloaded, it will then be validated using the set of validation rules configured for this service.
 Should a service fail any of these rules, the service will again be suspended from the service registry with the 
-failure message and a notification will be send to the `ApiContact` defined in the api spec.
+failure message and a notification will be sent to the `ApiContact` defined in the api spec.
 
-In addition this service contains endpoints to validate services during development or deployment to ensure 
+In addition, ServiceCop contains endpoints to validate services during development or deployment to ensure 
 they comply with the rules prior to deployment. This promotes consistency as distributed teams are developing 
 api services.
 
