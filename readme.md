@@ -25,7 +25,7 @@ Should a service fail any of these rules, the service will again be suspended fr
 failure message and a notification will be sent to the `ApiContact` defined in the api spec.
 
 In addition, ServiceCop contains endpoints to validate services during development or deployment to ensure 
-they comply with the rules prior to deployment. This promotes consistency as distributed teams are developing 
+they comply with the rules prior to deployment. This promotes consistency as distributed teams develop 
 api services.
 
 ![Overview](assets/ServiceCop_Overview.png)
@@ -37,7 +37,7 @@ but some examples of rules are included below.
 
 ### Plugins
 
-By default, this service expects that services must have at least two plugins installed, the first is service discovery, without
+By default, ServiceCop expects that services must have at least two plugins installed, the first is service discovery, without
 which the validation would not be called and the second is IntroSpec which provides a consistent model with which to validate services.
 
 Additional plugins and minimum versions can be enforced among services 
@@ -79,6 +79,7 @@ Eliminate or ease versioning problems for API consumers.
 
  + Non-breaking changes : ServiceCop can store a snapshot of each DTO upon successful service validation. Should a DTO be changed with breaking changes such as the removal or type change of a property, the DTO can fail validation enforcing backwards-compatibility.
  + DTO relocation : A DTO must be globally unique, in the event of a DTO being moved, an exception can be raised which first suspends the service pending verification and if accepted, will force the DTO requests to be redirected to the new service and a notification sent to the existing service ApiContact to remove the obsolete/moved DTO.
+ + Semver : Any non-breaking change to a DTO when compared to a previous snapshot must have a different version.
 
 ### Dependencies
 
