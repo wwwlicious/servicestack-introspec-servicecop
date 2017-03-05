@@ -1,13 +1,15 @@
-﻿namespace ServiceStack.IntroSpec.ServiceCop
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop
 {
     using Funq;
     using Serilog;
     using ServiceStack.Discovery.Consul;
     using ServiceStack.IntroSpec;
-    using ServiceStack.IntroSpec.Extensions;
     using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
-    //using ServiceStack.Logging.Serilog;
     using ServiceStack.Validation;
 
     public class AppHost : AppSelfHostBase
@@ -18,7 +20,7 @@
         /// <summary>
         /// Base constructor requires a Name and Assembly where web service implementation is located
         /// </summary>
-        /// <param name="externalUrl"></param>
+        /// <param name="externalUrl">the service url</param>
         /// <param name="logger">serilog logger</param>
         public AppHost(string externalUrl, ILogger logger) : base("ServiceStack.IntroSpec.ServiceCop", typeof(ServiceCopService).Assembly)
         {
@@ -30,6 +32,7 @@
         /// Application specific configuration
         /// This method should initialize any IoC resources utilized by your web service classes.
         /// </summary>
+        /// <param name="container">the ioc container</param>
         public override void Configure(Container container)
         {
             SetConfig(new HostConfig
@@ -53,6 +56,7 @@
             // TODO Remove, for testing only
             Register(new TestDataService());
 
+            // validator for introspec servicecop requests
             container.RegisterValidators(typeof(ValidateServiceRequestValidator).Assembly);
         }
     }

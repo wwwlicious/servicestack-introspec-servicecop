@@ -1,10 +1,16 @@
-﻿namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
     using ServiceStack.FluentValidation;
-    using ServiceStack.IntroSpec.Models;
 
     public class ApiPropertyValidator : AbstractValidator<ApiPropertyCompare>
     {
+        /// <summary>
+        /// TODO These should be separate rules
+        /// </summary>
         public ApiPropertyValidator()
         {
             RuleFor(x => x.Instance.Id)
@@ -17,7 +23,7 @@
                 .Must((x, instance) => AllowMultipleValidate(instance, x.Original.AllowMultiple))
                 .WithName("AllowMultiple")
                 .WithMessage("{PropertyName} '{PropertyValue}' has a breaking change")
-                .WithErrorCode(ApiCompareErrorCodes.AllowMulitpleChanged);
+                .WithErrorCode(ApiCompareErrorCodes.AllowMultipleChanged);
 
             RuleFor(x => x.Instance.IsRequired)
                 .Must((x, instance) => IsRequiredValidate(instance, x.Original.IsRequired))
@@ -33,10 +39,10 @@
                 .WithErrorCode(ApiCompareErrorCodes.ClrTypeChanged);
 
             // Create constraint validator
-            //RuleFor(x => x.Instance.Contraints).SetValidator()
+            // RuleFor(x => x.Instance.Contraints).SetValidator()
             
             // Create EmbeddedResourceValidator
-            //RuleFor(x => x.Instance.EmbeddedResource)
+            // RuleFor(x => x.Instance.EmbeddedResource)
 
             RuleFor(x => x.Instance.ParamType)
                 .Equal(x => x.Original.ParamType)
@@ -57,16 +63,10 @@
         private bool AllowMultipleValidate(bool? instance, bool? original)
         {
             // a breaking change happens when:
-            // original has a value and value changed from allowing -> not allowing mutiple
+            // original has a value and that value is changed from allowing -> not allowing multiple
             if (!original.HasValue) return true;
             if (!instance.HasValue) return false;
             return !original.Value || instance.Value;
         }
-    }
-
-    public class ApiPropertyCompare
-    {
-        public ApiPropertyDocumention Original { get; set; }
-        public ApiPropertyDocumention Instance { get; set; }
     }
 }

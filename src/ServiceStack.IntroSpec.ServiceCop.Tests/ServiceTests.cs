@@ -1,4 +1,8 @@
-﻿namespace ServiceStack.IntroSpec.ServiceCop.Tests
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop.Tests
 {
     using System;
     using FakeItEasy;
@@ -34,7 +38,7 @@
         }
 
         [Fact]
-        public void TestMethod1()
+        public void TestGettingServiceDiscoveryResponse()
         {
             A.CallTo(() => serviceProvider.GetServices()).Returns(new[] { new ServiceDetail { Name = "bob" } });
             var service = appHost.Container.Resolve<ServiceCopService>();

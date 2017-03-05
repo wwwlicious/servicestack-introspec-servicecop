@@ -8,8 +8,20 @@ Built on top of our api spec plugin, [IntroSpec](https://github.com/MacLeanElect
 our service registry, [Consul Service Discovery](https://github.com/MacLeanElectrical/servicestack-discovery-consul), 
 ServiceCop can be configured to enforce and validate consistency in your api services.
 
-The packaged rules include naming, documentation, contract and versioning, unbounded result checks, 
-plugins and security but are configurable depending on your requirements.
+One of the motivations for this project is to promote consistency and backwards compatability to your services
+by restricting the ability to make destructive changes to your api.
+
+For some background on why this important and the philosphy of ServiceCop, see Rich Hickeys talk on Spec-ulation https://youtu.be/oyLBGkS5ICk?t=4177
+
+## Rules
+
+There are two main types of rules. 
+
+* Contract Rules - these are always enforced unless explicit exceptions are added. For details on adding exceptions [see here](./RuleExceptions.md)
+* Consistency Rules - these are rules that are optional, ocnfigarable and intended to allow consistency of all your services in a variety of categories.
+
+The packaged rules include all contract rules plus consistency rules covering naming, documentation, versioning, unbounded results, 
+plugins and security/authentication.
 
 ## How it works
 

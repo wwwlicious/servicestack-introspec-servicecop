@@ -1,0 +1,851 @@
+﻿{
+  "Title": "DemoDocumentationService",
+  "ApiVersion": "2.0",
+  "ApiBaseUrl": "http://introspec.servicestack.net/something",
+  "Description": "This is a demo app host setup for testing documentation.",
+  "LicenceUrl": "http://mozilla.org/MPL/2.0/",
+  "Contact": {
+    "Name": "Joe Bloggs",
+    "Email": "email@address.com"
+  },
+  "Resources": [
+    {
+      "TypeName": "DemoRequest",
+      "Title": "DemoRequest",
+      "Description": "Demo Request Description",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [
+        {
+          "Id": "Name",
+          "ClrType": "String",
+          "Title": "Name",
+          "Description": "This is a description of name",
+          "ParamType": "body",
+          "IsRequired": true,
+          "AllowMultiple": false,
+          "Contraints": {
+            "Name": "Name",
+            "Values": ["DaveDee", "Dozy", "Beaky", "Mick", "Tich"],
+            "Type": "List"
+          }
+        },
+        {
+          "Id": "AnotherProperty",
+          "ClrType": "Int32",
+          "Title": "AnotherProperty",
+          "IsRequired": false,
+          "AllowMultiple": false
+        }
+      ],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Verb": "POST",
+          "Notes": "Notes from route attr",
+          "StatusCodes": [
+            {
+              "Code": 200,
+              "Description": "Everything is hunky dory",
+              "Name": "OK"
+            },
+            {
+              "Code": 500,
+              "Description": "Something went wrong",
+              "Name": "Internal Server Error"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            }
+          ],
+          "ContentTypes": ["application/xml", "application/json"],
+          "RelativePaths": [
+            {
+              "Path": "/request/{Name}/",
+              "Source": "Attribute",
+              "IsAutoRoute": false,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 200,
+              "Description": "Everything is hunky dory",
+              "Name": "OK"
+            },
+            {
+              "Code": 500,
+              "Description": "Something went wrong",
+              "Name": "Internal Server Error"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            }
+          ],
+          "ContentTypes": ["application/xml", "application/json"],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/DemoRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        }
+      ],
+      "ReturnType": {
+        "Title": "DemoResponse",
+        "Notes": "Default notes, set at a global level",
+        "TypeName": "DemoResponse",
+        "Properties": [
+          {
+            "Id": "Message",
+            "ClrType": "String",
+            "Title": "Response Message",
+            "Description": "The returned message",
+            "IsRequired": false,
+            "IsCollection": false
+          }
+        ],
+        "IsCollection": false
+      },
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    },
+    {
+      "TypeName": "FallbackRequest",
+      "Title": "FallbackRequest",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [
+        {
+          "Id": "Name",
+          "ClrType": "String",
+          "Title": "Name"
+        },
+        {
+          "Id": "Age",
+          "ClrType": "Int32",
+          "Title": "Age"
+        },
+        {
+          "Id": "MyName",
+          "ClrType": "Name",
+          "Title": "MyName",
+          "EmbeddedResource": {
+            "__type": "ServiceStack.IntroSpec.Models.ApiResourceType, ServiceStack.IntroSpec",
+            "Title": "Name",
+            "TypeName": "Name",
+            "Properties": [
+              {
+                "Id": "Forename",
+                "ClrType": "String",
+                "Title": "Forename"
+              },
+              {
+                "Id": "Surname",
+                "ClrType": "String",
+                "Title": "Also known as last name",
+                "IsRequired": false,
+                "AllowMultiple": false
+              }
+            ],
+            "IsCollection": false
+          }
+        },
+        {
+          "Id": "MyField",
+          "ClrType": "String",
+          "Title": "MyField"
+        }
+      ],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 204,
+              "Name": "No Content"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/fallback",
+              "Source": "Fallback",
+              "IsAutoRoute": false,
+              "IsFallback": true
+            }
+          ]
+        },
+        {
+          "Verb": "POST",
+          "StatusCodes": [
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/fallback",
+              "Source": "Fallback",
+              "IsAutoRoute": false,
+              "IsFallback": true
+            }
+          ]
+        }
+      ],
+      "ReturnType": {
+        "Title": "ComplexResponse",
+        "Description": "Response type with embedded type",
+        "Notes": "Default notes, set at a global level",
+        "TypeName": "ComplexResponse",
+        "Properties": [
+          {
+            "Id": "Message",
+            "ClrType": "String",
+            "Title": "Message",
+            "Description": "The returned message",
+            "IsRequired": false,
+            "IsCollection": false
+          },
+          {
+            "Id": "EmbeddedType",
+            "ClrType": "SubComplexResponse",
+            "Title": "Embedded Type",
+            "Description": "Lets go",
+            "IsRequired": false,
+            "IsCollection": false,
+            "EmbeddedResource": {
+              "__type": "ServiceStack.IntroSpec.Models.ApiResourceType, ServiceStack.IntroSpec",
+              "Title": "SubComplexResponse",
+              "Description": "Response type with embedded type",
+              "TypeName": "SubComplexResponse",
+              "Properties": [
+                {
+                  "Id": "Age",
+                  "ClrType": "Int32",
+                  "Title": "Age",
+                  "Description": "The age. From attribute",
+                  "IsRequired": false,
+                  "IsCollection": false
+                },
+                {
+                  "Id": "DateOfBirth",
+                  "ClrType": "DateTime",
+                  "Title": "DOB",
+                  "Description": "The date of the birth. From attribute",
+                  "IsRequired": false,
+                  "IsCollection": false
+                },
+                {
+                  "Id": "MyName",
+                  "ClrType": "Name",
+                  "Title": "Details of my name",
+                  "Description": "The name. From attribute",
+                  "IsRequired": false,
+                  "IsCollection": false,
+                  "EmbeddedResource": {
+                    "__type": "ServiceStack.IntroSpec.Models.ApiResourceType, ServiceStack.IntroSpec",
+                    "Title": "Name",
+                    "TypeName": "Name",
+                    "Properties": [
+                      {
+                        "Id": "Forename",
+                        "ClrType": "String",
+                        "Title": "Forename",
+                        "IsCollection": false
+                      },
+                      {
+                        "Id": "Surname",
+                        "ClrType": "String",
+                        "Title": "Also known as last name",
+                        "IsRequired": false,
+                        "IsCollection": false
+                      }
+                    ],
+                    "IsCollection": false
+                  }
+                },
+                {
+                  "Id": "YourName",
+                  "ClrType": "Name",
+                  "Title": "YourName",
+                  "IsCollection": false,
+                  "EmbeddedResource": {
+                    "__type": "ServiceStack.IntroSpec.Models.ApiResourceType, ServiceStack.IntroSpec",
+                    "Title": "Name",
+                    "TypeName": "Name",
+                    "Properties": [
+                      {
+                        "Id": "Forename",
+                        "ClrType": "String",
+                        "Title": "Forename",
+                        "IsCollection": false
+                      },
+                      {
+                        "Id": "Surname",
+                        "ClrType": "String",
+                        "Title": "Also known as last name",
+                        "IsRequired": false,
+                        "IsCollection": false
+                      }
+                    ],
+                    "IsCollection": false
+                  }
+                }
+              ],
+              "IsCollection": false
+            }
+          }
+        ],
+        "IsCollection": false
+      },
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    },
+    {
+      "TypeName": "DtoEnumRequest",
+      "Title": "DtoEnumRequest",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [
+        {
+          "Id": "JustAnInt",
+          "ClrType": "Int32",
+          "Title": "JustAnInt"
+        },
+        {
+          "Id": "ListIfStrings",
+          "ClrType": "List<String>",
+          "Title": "ListIfStrings",
+          "AllowMultiple": true
+        },
+        {
+          "Id": "ItsALongOrIsIt",
+          "ClrType": "Nullable<Int64>",
+          "Title": "ItsALongOrIsIt",
+          "IsRequired": false
+        },
+        {
+          "Id": "DicOfIntWithStringList",
+          "ClrType": "Dictionary<Int32,List<String>>",
+          "Title": "DicOfIntWithStringList",
+          "AllowMultiple": true
+        },
+        {
+          "Id": "FuncListDicStringObjectswithObjectsThatSayBool",
+          "ClrType": "Func<List<Dictionary<String,Object>>,Boolean>",
+          "Title": "FuncListDicStringObjectswithObjectsThatSayBool"
+        }
+      ],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/DtoEnumRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Verb": "POST",
+          "StatusCodes": [
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/DtoEnumRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        }
+      ],
+      "ReturnType": {
+        "Title": "DemoResponse",
+        "Notes": "Default notes, set at a global level",
+        "TypeName": "List<DemoResponse>",
+        "Properties": [
+          {
+            "Id": "Message",
+            "ClrType": "String",
+            "Title": "Response Message",
+            "Description": "The returned message",
+            "IsRequired": false,
+            "IsCollection": false
+          }
+        ],
+        "IsCollection": true
+      },
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    },
+    {
+      "TypeName": "EmptyDtoRequest",
+      "Title": "EmptyDtoRequest",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/EmptyDtoRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Verb": "POST",
+          "StatusCodes": [
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 403,
+              "Description": "Set at a global level",
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/EmptyDtoRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        }
+      ],
+      "ReturnType": {
+        "Title": "DemoResponse",
+        "Notes": "Default notes, set at a global level",
+        "TypeName": "DemoResponse",
+        "Properties": [
+          {
+            "Id": "Message",
+            "ClrType": "String",
+            "Title": "Response Message",
+            "Description": "The returned message",
+            "IsRequired": false,
+            "IsCollection": false
+          }
+        ],
+        "IsCollection": false
+      },
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    },
+    {
+      "TypeName": "OneWayRequest",
+      "Title": "OneWayRequest",
+      "Description": "One Way Request. Should have a 204 response",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Security": {
+            "IsProtected": true,
+            "Roles": { "AllOf": ["Admin"] }
+          },
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 204,
+              "Name": "No Content"
+            },
+            {
+              "Code": 401,
+              "Name": "Unauthorized"
+            },
+            {
+              "Code": 403,
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/oneway/OneWayRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        }
+      ],
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    },
+    {
+      "TypeName": "SecureRequest",
+      "Title": "SecureRequest",
+      "Notes": "Default notes, set at a global level",
+      "Properties": [],
+      "AllowMultiple": true,
+      "Actions": [
+        {
+          "Security": {
+            "IsProtected": true,
+            "Roles": { "AllOf": ["Admin"] },
+            "Permissions": { "AllOf": ["CanAccess"] }
+          },
+          "Verb": "GET",
+          "StatusCodes": [
+            {
+              "Code": 401,
+              "Name": "Unauthorized"
+            },
+            {
+              "Code": 403,
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/SecureRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Security": {
+            "IsProtected": true,
+            "Roles": { "AllOf": ["Admin"] },
+            "Permissions": { "AllOf": ["CanAccess", "CanAdd"] }
+          },
+          "Verb": "PUT",
+          "StatusCodes": [
+            {
+              "Code": 401,
+              "Name": "Unauthorized"
+            },
+            {
+              "Code": 403,
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/SecureRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Security": {
+            "IsProtected": true,
+            "Roles": { "AllOf": ["Admin"] },
+            "Permissions": { "AllOf": ["CanAccess", "CanAdd"] }
+          },
+          "Verb": "POST",
+          "StatusCodes": [
+            {
+              "Code": 401,
+              "Name": "Unauthorized"
+            },
+            {
+              "Code": 403,
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/SecureRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        },
+        {
+          "Security": {
+            "IsProtected": true,
+            "Roles": { "AllOf": ["Admin"] },
+            "Permissions": {
+              "AnyOf": ["CanDelete", "AdminRights"],
+              "AllOf": ["CanAccess"]
+            }
+          },
+          "Verb": "DELETE",
+          "StatusCodes": [
+            {
+              "Code": 401,
+              "Name": "Unauthorized"
+            },
+            {
+              "Code": 403,
+              "Name": "Forbidden"
+            },
+            {
+              "Code": 429,
+              "Description": "This is rate limited",
+              "Name": "Too Many Requests"
+            },
+            {
+              "Code": 200,
+              "Description": "Ok. Set at a global level",
+              "Name": "OK"
+            }
+          ],
+          "ContentTypes": [
+            "application/xml", "application/json", "application/jsv", "text/csv", "application/x-msgpack",
+            "text/xml; charset=utf-8", "application/soap+xml"
+          ],
+          "RelativePaths": [
+            {
+              "Path": "/json/reply/SecureRequest",
+              "Source": "AutoRoute",
+              "IsAutoRoute": true,
+              "IsFallback": false
+            }
+          ]
+        }
+      ],
+      "ReturnType": {
+        "Title": "SecureResponse",
+        "Notes": "Default notes, set at a global level",
+        "TypeName": "SecureResponse",
+        "Properties": [],
+        "IsCollection": false
+      },
+      "Category": "Fallback Category",
+      "Tags": ["DefaultTag"]
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "ServiceStack.Formats.HtmlFormat",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.Formats.CsvFormat",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.Formats.MarkdownFormat",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.PredefinedRoutesFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.MetadataFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.NativeTypesFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.HttpCacheFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.MsgPack.MsgPackFormat",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.PostmanFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.Api.Swagger.SwaggerFeature",
+      "Version": "4.5.0.0"
+    },
+    {
+      "Name": "ServiceStack.IntroSpec.ApiSpecFeature",
+      "Version": "1.0.0.0"
+    }
+  ]
+}

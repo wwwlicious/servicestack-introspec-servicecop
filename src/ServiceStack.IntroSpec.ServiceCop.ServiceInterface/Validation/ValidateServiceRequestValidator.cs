@@ -1,4 +1,8 @@
-﻿namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
@@ -9,9 +13,10 @@
         {
             // order of precedence id > url > json 
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            RuleFor(x => x.ServiceId).NotEmpty().Unless(x => x.ServiceUrl.IsWellFormedOriginalString() || x.IntroSpecJson != null);
-            RuleFor(x => x.ServiceUrl).NotEmpty().Unless(x => x.IntroSpecJson != null);
-            RuleFor(x => x.IntroSpecJson).NotEmpty();
+
+            RuleFor(x => x.ServiceId).NotEmpty().When(x => x.ServiceUrl == null && x.IntroSpecJson == null);
+            RuleFor(x => x.ServiceUrl).NotEmpty().Must(x => x.IsAbsoluteUri).When(x => x.ServiceId == null && x.IntroSpecJson == null);
+            RuleFor(x => x.IntroSpecJson).NotEmpty().When(x => x.ServiceId == null && x.ServiceUrl == null);
         }
     }
 }

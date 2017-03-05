@@ -1,6 +1,9 @@
-﻿namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+﻿// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
-    using ServiceStack.Discovery.Consul;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
 
     public class DummyServiceProvider : IServiceProvider<ServiceDetail>
@@ -21,7 +24,7 @@
         public void SuspendService(string serviceId, string maintenanceMessage)
         {
             // first need to find node (agent) that manages service
-            http://127.0.0.1:8500/v1/catalog/service/api?tags=GetDiscoveryServiceRequest
+            // http://127.0.0.1:8500/v1/catalog/service/api?tags=GetDiscoveryServiceRequest
 
             /*
              * {
@@ -43,20 +46,24 @@ ModifyIndex: 2143
              * */
 
             // next need to suspend service on agent with validation failure message
-            var request = new SuspendServiceRequest { ServiceId = serviceId , Reason = maintenanceMessage };
-            "127.0.0.1".AppendUrlPaths(request.ToUrl()).PutToUrl(null, responseFilter: response =>
-            {
-                //if(response.IsErrorResponse() throw response.GetResponseStatus());)
-            });
+            var request = new SuspendServiceRequest { ServiceId = serviceId, Reason = maintenanceMessage };
+            "127.0.0.1".AppendUrlPaths(request.ToUrl()).PutToUrl(
+                null,
+                responseFilter: response =>
+                    {
+                        // if(response.IsErrorResponse() throw response.GetResponseStatus());)
+                    });
         }
 
         public void EnableService(string serviceId)
         {
             // re-enables a service
             var request = new EnableServiceRequest { ServiceId = serviceId };
-            "127.0.0.1".AppendUrlPaths(request.ToUrl()).PutToUrl(null, responseFilter: response =>
-            {
-                // throw if error response
+            "127.0.0.1".AppendUrlPaths(request.ToUrl()).PutToUrl(
+                null,
+                responseFilter: response =>
+                    {
+                        // throw if error response
             });
         }
     }
