@@ -25,6 +25,8 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
 
         public DtoRequestPrefixRule DtoRequestPrefixRule { get; set; } = new DtoRequestPrefixRule();
 
+        public PluginRule PluginRule { get; set; } = new PluginRule();
+
         [IgnoreDataMember]
         public AbstractRule[] Rules
         {

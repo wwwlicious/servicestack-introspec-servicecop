@@ -17,12 +17,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         {
             // Validators are configured/enabled via an introspec.json file
             var config = RuleConfig.Load();
-
-            // this is the hardcoded version, perhaps that is enough in which case above is not needed.
             Validator = new ApiDocumentationValidator(config);
         }
 
-        public ApiDocumentationValidator Validator { get; }
+        private ApiDocumentationValidator Validator { get; }
 
         public ValidationResult Validate(ApiDocumentation specResponse)
         {

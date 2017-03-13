@@ -4,27 +4,30 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.Models;
     using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
+    using ServiceStack.NativeTypes;
 
     public class ApiResourceValidator : AbstractValidator<ApiResourceDocumentation>
     {
         public ApiResourceValidator(RuleConfig ruleConfig)
         {
+            // Add validators for all rules applicable to ApiResourceDocumentation types
             var resourceRules = ruleConfig.Rules.Where(x => x.Validator.CanValidateInstancesOfType(typeof(ApiResourceDocumentation)));
-
-
             foreach (var resourceRule in resourceRules)
             {
-                // NOTE pre postfix are req/response independent, should be diff rules 
-                // parent types are not the same though
                 RuleFor(x => x).SetValidator(resourceRule.Validator as IValidator<ApiResourceDocumentation>).WithName("ApiResourceDocumentation");
             }
-
-            // var apiPropertyValidator = new ApiPropertyValidator();
-            // RuleFor(x => x).SetValidator(new ApiPropertyValidator());
         }
-    } 
+    }
+
+    // rules 
+
+    // DTO's with Enforce Validators mode must have a validator (HasValidator prop)
+    // TODO Add a custom message provider to append help doc url to messages
 }

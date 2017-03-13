@@ -13,12 +13,29 @@ by restricting the ability to make destructive changes to your api.
 
 For some background on why this important and the philosphy of ServiceCop, see Rich Hickeys talk on Spec-ulation https://youtu.be/oyLBGkS5ICk?t=4177
 
+## Quick start
+
+1. Clone the repo
+2. Build the project
+3. Have a copy of the [consul binary](http://consul.io) and a local agent running. You can run an in-memory instance with the following command:
+ 
+	`consul.exe agent -dev -advertise="127.0.0.1"`
+
+4. Start servicecop.exe
+
+Servicecop will now listen for any services registered with consul and validate them.
+When a service fails validation, the service will be suspended and the validation failures added 
+to the suspension information.
+
+In addition, servicecop.exe sets up endpoints where you can submit your servicestack service urls or
+introspec documents
+
 ## Rules
 
 There are two main types of rules. 
 
-* Contract Rules - these are always enforced unless explicit exceptions are added. For details on adding exceptions [see here](./RuleExceptions.md)
-* Consistency Rules - these are rules that are optional, ocnfigarable and intended to allow consistency of all your services in a variety of categories.
+1. Contract Rules - these are always enforced unless explicit exceptions are added. For details on adding exceptions [see here](./RuleExceptions.md)
+2. Consistency Rules - these are rules that are optional, configurable and intended to promote best practice and consistency for all your services in a global context.
 
 The packaged rules include all contract rules plus consistency rules covering naming, documentation, versioning, unbounded results, 
 plugins and security/authentication.

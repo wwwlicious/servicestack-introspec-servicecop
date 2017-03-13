@@ -4,8 +4,11 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
+    using System;
+    using System.Linq;
     using Semver;
     using ServiceStack.FluentValidation;
+    using ServiceStack.FluentValidation.Validators;
     using ServiceStack.IntroSpec.Models;
     using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
     using ServiceStack.IntroSpec.Validators;
@@ -18,17 +21,20 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
             RuleFor(x => x.Contact).SetValidator(new ApiContactValidator());
 
             // enforces a strict semver 2.0.0 spec so that we can get reliable sorting for snapshots
-            SemVersion semver;
-            RuleFor(x => x.ApiVersion).Must(x => SemVersion.TryParse(x, out semver, true))
+            RuleFor(x => x.ApiVersion).SemVer().Must(x => SemVersion.TryParse(x, out var semver, true))
                 .WithErrorCode("ApiVersion")
                 .WithMessage("The api version `{0}` must be in semver v2.0.0 format to allow reliable sorting, see http://semver.org for details", x => x.ApiVersion);
 
             // seems obvious but no service url or badly formed urls allowed
-            When(x => !x.ApiBaseUrl.IsNullOrEmpty(), () => RuleFor(a => a.ApiBaseUrl).Url());
+            RuleFor(x => x.ApiBaseUrl)
+                .NotEmpty()
+                .Url(UriKind.Absolute)
+                .WithMessage("The ApiBaseUrl must be a valid absolute url");
 
             // the main validators for each dto (ApiResourceDocumentation) are here
             RuleFor(x => x.Resources).SetCollectionValidator(new ApiResourceValidator(ruleConfig));
-            //RuleForEach(x => x.Resources).SetValidator(new ApiResourceValidator(ruleConfig));
+
+            //RuleFor(x => x.Plugins));
         }
     }
 }

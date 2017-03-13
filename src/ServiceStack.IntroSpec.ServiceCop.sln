@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.IntroSpec.ServiceCop", "ServiceStack.IntroSpec.ServiceCop\ServiceStack.IntroSpec.ServiceCop.csproj", "{CF36BF58-D08F-425A-9A6A-D0A86C506110}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.IntroSpec.ServiceCop.ServiceModel", "ServiceStack.IntroSpec.ServiceCop.ServiceModel\ServiceStack.IntroSpec.ServiceCop.ServiceModel.csproj", "{8D6DE92C-637E-4433-9810-98D7FBCEA6BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.IntroSpec.ServiceCop.ServiceInterface", "ServiceStack.IntroSpec.ServiceCop.ServiceInterface\ServiceStack.IntroSpec.ServiceCop.ServiceInterface.csproj", "{130DED02-5984-487C-93DD-0D264EED140E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.IntroSpec.ServiceCop.Core", "ServiceStack.IntroSpec.ServiceCop.ServiceInterface\ServiceStack.IntroSpec.ServiceCop.Core.csproj", "{130DED02-5984-487C-93DD-0D264EED140E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.IntroSpec.ServiceCop.Tests", "ServiceStack.IntroSpec.ServiceCop.Tests\ServiceStack.IntroSpec.ServiceCop.Tests.csproj", "{12B06E45-12F5-4E56-ADB4-5879D98D3105}"
 EndProject

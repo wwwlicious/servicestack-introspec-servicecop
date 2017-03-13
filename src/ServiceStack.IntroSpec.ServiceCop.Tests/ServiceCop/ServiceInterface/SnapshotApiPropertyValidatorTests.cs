@@ -8,13 +8,13 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface
     using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
     using Xunit;
 
-    public class ApiPropertyValidatorTests
+    public class SnapshotApiPropertyValidatorTests
     {
-        private readonly ApiPropertyValidator validator;
+        private readonly SnapshotApiPropertyValidator validator;
 
-        public ApiPropertyValidatorTests()
+        public SnapshotApiPropertyValidatorTests()
         {
-            validator = new ApiPropertyValidator();
+            validator = new SnapshotApiPropertyValidator();
         }
 
         [Fact]

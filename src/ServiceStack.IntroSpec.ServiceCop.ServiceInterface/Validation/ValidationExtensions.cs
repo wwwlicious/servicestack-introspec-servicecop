@@ -5,6 +5,8 @@
 namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using ServiceStack.FluentValidation;
     using ServiceStack.FluentValidation.Internal;
@@ -33,14 +35,15 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TProperty"></typeparam>
         /// <param name="ruleBuilder"></param>
+        /// <param name="uriKind"></param>
         /// <returns></returns>
-        public static IRuleBuilderOptions<T, TProperty> Url<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder)
+        public static IRuleBuilderOptions<T, TProperty> Url<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, UriKind uriKind)
         {
-            return ruleBuilder.Must(x => Uri.IsWellFormedUriString(x.ToString(), UriKind.RelativeOrAbsolute));
+            return ruleBuilder.Must(x => Uri.IsWellFormedUriString(x.ToString(), uriKind));
         }
 
         /// <summary>
-        /// 
+        /// Checks string equality ignoring case
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TProperty"></typeparam>
@@ -50,22 +53,23 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         public static IRuleBuilderOptions<T, TProperty> EqualIgnoreCase<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, Expression<Func<T, string>> expression) 
         {
             var func = expression.Compile();
-            return ruleBuilder.SetValidator(new EqualValidator(func.CoerceToNonGeneric(), expression.GetMember(), StringComparer.InvariantCultureIgnoreCase));
+            return ruleBuilder.SetValidator(new EqualValidator(func.CoerceToNonGeneric(), expression.GetMember(), StringComparer.OrdinalIgnoreCase));
         }
 
-        /// <summary>
-        /// Specifies custom severity that should be stored alongside the validation message when validation fails for this rule.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="rule"></param>
-        /// <param name="severity"></param>
-        /// <returns></returns>
-        public static IRuleBuilderOptions<T, TProperty> WithSeverity<T, TProperty>(
-            this IRuleBuilderOptions<T, TProperty> rule, Severity severity)
+        public static IRuleBuilderOptions<T, string> MinimumWords<T>(
+            this IRuleBuilderOptions<T, string> ruleBuilder, int minimumWords)
         {
-            return rule.Configure(x => x.CurrentValidator.CustomStateProvider = o => severity as object);
-            //return rule.Configure(config => config.CurrentValidator.Severity = severity);
+            return ruleBuilder.SetValidator(new MinimumLengthValidator(minimumWords));
+        }
+
+        public static IRuleBuilderOptions<T, IEnumerable<string>> NoDuplicates<T>(
+            this IRuleBuilderOptions<T, IEnumerable<string>> ruleBuilder)
+        {
+            return ruleBuilder.Must(x =>
+            {
+                var items = x.ToArray();
+                return items.Count() == items.Distinct().Count();
+            });
         }
     }
 }

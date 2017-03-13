@@ -4,7 +4,7 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
-    public static class ApiCompareErrorCodes
+    public static class SnapshotErrorCodes
     {
         public const string PropertyIdChanged = "PropertyIdChanged";
         public const string ParamTypeChanged = "ParamTypeChanged";

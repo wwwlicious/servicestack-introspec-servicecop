@@ -14,7 +14,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -52,8 +52,8 @@
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Interfaces.4.5.7\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.IntroSpec">
-      <HintPath>..\..\packages\ServiceStack.IntroSpec.4.0.19\lib\net45\ServiceStack.IntroSpec.dll</HintPath>
+    <Reference Include="ServiceStack.IntroSpec, Version=4.0.36.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.IntroSpec.4.0.36\lib\net45\ServiceStack.IntroSpec.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.OrmLite, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.OrmLite.4.5.7\lib\net45\ServiceStack.OrmLite.dll</HintPath>
@@ -78,36 +78,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\SnapshotService.cs" />
     <Compile Include="Spec\DefaultSpecProvider.cs" />
-    <Compile Include="DummyServiceProvider.cs" />
+    <Compile Include="Discovery\DummyServiceProvider.cs" />
     <Compile Include="Exceptions\IntrospecNotFoundException.cs" />
-    <Compile Include="IServiceProvider.cs" />
+    <Compile Include="Discovery\IServiceProvider.cs" />
     <Compile Include="Snapshot\ISnapshotProvider.cs" />
-    <Compile Include="Validation\ApiCompareErrorCodes.cs" />
-    <Compile Include="Validation\ApiPropertyCompare.cs" />
-    <Compile Include="Validation\ApiPropertyValidator.cs" />
-    <Compile Include="Validation\ApiResourceValidator.cs" />
+    <Compile Include="Validators\ApiActionValidator.cs" />
+    <Compile Include="Validators\NativeTypeValidator.cs" />
+    <Compile Include="Validators\RequestDocumentationValidator.cs" />
+    <Compile Include="Validators\RequestNamingValidator.cs" />
+    <Compile Include="Validators\ResponseEnumerableValidator.cs" />
+    <Compile Include="Validators\ResponseUnboundedResultsetValidator.cs" />
+    <Compile Include="Rules\DtoRequestPostfixValidator.cs" />
+    <Compile Include="Rules\DtoRequestPrefixValidator.cs" />
+    <Compile Include="Rules\PluginRule.cs" />
+    <Compile Include="Rules\RuleIds.cs" />
+    <Compile Include="Rules\StringExtensions.cs" />
+    <Compile Include="Validation\SnapshotErrorCodes.cs" />
+    <Compile Include="Validators\SnapshotApiPropertyValidator.cs" />
+    <Compile Include="Validators\ApiResourceValidator.cs" />
     <Compile Include="Services\IServiceValidator.cs" />
     <Compile Include="Spec\ISpecProvider.cs" />
     <Compile Include="Services\SpecExtensions.cs" />
-    <Compile Include="TestDataService.cs" />
+    <Compile Include="Discovery\TestDataService.cs" />
     <Compile Include="Services\ServiceCopService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\ServiceNotFoundException.cs" />
     <Compile Include="Services\ServiceValidator.cs" />
     <Compile Include="Snapshot\SnapshotSummary.cs" />
     <Compile Include="Snapshot\SnapshotValidationResult.cs" />
-    <Compile Include="Validation\ApiDocumentationValidator.cs" />
-    <Compile Include="StringTokenValidator.cs" />
-    <Compile Include="Validation\Rules\AbstractRule.cs" />
-    <Compile Include="Validation\Rules\DtoRequestPrefixRule.cs" />
-    <Compile Include="Validation\Rules\DtoRequestPostfixRule.cs" />
-    <Compile Include="Validation\Rules\IRuleConfig.cs" />
-    <Compile Include="Validation\Rules\RuleBase.cs" />
-    <Compile Include="Validation\Rules\RuleConfig.cs" />
+    <Compile Include="Validators\ApiDocumentationValidator.cs" />
+    <Compile Include="Rules\AbstractRule.cs" />
+    <Compile Include="Rules\DtoRequestPrefixRule.cs" />
+    <Compile Include="Rules\DtoRequestPostfixRule.cs" />
+    <Compile Include="Rules\IRuleConfig.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\RuleConfig.cs" />
     <Compile Include="ServiceCopValidationFeature.cs" />
-    <Compile Include="Validation\ValidateServiceRequestValidator.cs" />
+    <Compile Include="Validators\ValidateServiceRequestValidator.cs" />
     <Compile Include="Validation\ValidationExtensions.cs" />
+    <Compile Include="Validators\ValidatorStrictModeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -118,9 +129,7 @@
       <Name>ServiceStack.IntroSpec.ServiceCop.ServiceModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Discovery\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

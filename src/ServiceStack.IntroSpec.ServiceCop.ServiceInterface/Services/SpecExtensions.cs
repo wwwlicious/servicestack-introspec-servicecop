@@ -23,4 +23,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         public IApiResourceType Original { get; set; }
         public IApiResourceType Instance { get; set; }
     }
+
+    public class ApiPropertyCompare
+    {
+        public ApiPropertyDocumention Original { get; set; }
+        public ApiPropertyDocumention Instance { get; set; }
+    }
 }

@@ -72,17 +72,8 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 
         //public object Any(RegisterServiceRequest request) { }
 
-        //public object Any(CreateServiceCopExceptionRequest request) { }
+        //public object Any(CreateServiceCopOverrideRequest request) { }
 
         //public object Any(AuthoriseServiceOverrideRequest request) { }
-    }
-
-    public class SnapshotService : Service
-    {
-        //public object Any(GetServiceCopSnapshot request) { }
-
-        //public object Any(CreateServiceCopSnapshot request) { }
-
-        //public object Any(RemoveServiceCopSnapshot request) { }
     }
 }

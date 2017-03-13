@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>embedded</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -95,9 +95,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServiceStack.IntroSpec.ServiceCop.ServiceInterface\ServiceStack.IntroSpec.ServiceCop.ServiceInterface.csproj">
+    <ProjectReference Include="..\ServiceStack.IntroSpec.ServiceCop.ServiceInterface\ServiceStack.IntroSpec.ServiceCop.Core.csproj">
       <Project>{130DED02-5984-487C-93DD-0D264EED140E}</Project>
-      <Name>ServiceStack.IntroSpec.ServiceCop.ServiceInterface</Name>
+      <Name>ServiceStack.IntroSpec.ServiceCop.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceStack.IntroSpec.ServiceCop.ServiceModel\ServiceStack.IntroSpec.ServiceCop.ServiceModel.csproj">
       <Project>{8D6DE92C-637E-4433-9810-98D7FBCEA6BA}</Project>

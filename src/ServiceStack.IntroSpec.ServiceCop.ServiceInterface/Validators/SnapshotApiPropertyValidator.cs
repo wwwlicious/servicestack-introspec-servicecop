@@ -6,37 +6,37 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 {
     using ServiceStack.FluentValidation;
 
-    public class ApiPropertyValidator : AbstractValidator<ApiPropertyCompare>
+    public class SnapshotApiPropertyValidator : AbstractValidator<ApiPropertyCompare>
     {
         /// <summary>
         /// TODO These should be separate rules
         /// </summary>
-        public ApiPropertyValidator()
+        public SnapshotApiPropertyValidator()
         {
             RuleFor(x => x.Instance.Id)
                 .EqualIgnoreCase(x => x.Original.Id)
                 .WithName("Id")
                 .WithMessage("{PropertyName} '{PropertyValue}' does not match")
-                .WithErrorCode(ApiCompareErrorCodes.PropertyIdChanged);
+                .WithErrorCode(SnapshotErrorCodes.PropertyIdChanged);
 
             RuleFor(x => x.Instance.AllowMultiple)
                 .Must((x, instance) => AllowMultipleValidate(instance, x.Original.AllowMultiple))
                 .WithName("AllowMultiple")
                 .WithMessage("{PropertyName} '{PropertyValue}' has a breaking change")
-                .WithErrorCode(ApiCompareErrorCodes.AllowMultipleChanged);
+                .WithErrorCode(SnapshotErrorCodes.AllowMultipleChanged);
 
             RuleFor(x => x.Instance.IsRequired)
                 .Must((x, instance) => IsRequiredValidate(instance, x.Original.IsRequired))
                 .WithName("IsRequired")
                 .WithMessage("{PropertyName} has been enabled")
-                .WithErrorCode(ApiCompareErrorCodes.IsRequiredChanged);
+                .WithErrorCode(SnapshotErrorCodes.IsRequiredChanged);
 
             // TODO write tests
             RuleFor(x => x.Instance.ClrType)
                 .Equal(x => x.Original.ClrType)
                 .WithName("ClrType")
                 .WithMessage("{PropertyName} '{PropertyValue} has changed")
-                .WithErrorCode(ApiCompareErrorCodes.ClrTypeChanged);
+                .WithErrorCode(SnapshotErrorCodes.ClrTypeChanged);
 
             // Create constraint validator
             // RuleFor(x => x.Instance.Contraints).SetValidator()
@@ -48,7 +48,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
                 .Equal(x => x.Original.ParamType)
                 .WithName("ParamType")
                 .WithMessage("ParamType {PropertyValue} does not match {ComparisonValue}")
-                .WithErrorCode(ApiCompareErrorCodes.ParamTypeChanged);
+                .WithErrorCode(SnapshotErrorCodes.ParamTypeChanged);
         }
 
         private bool IsRequiredValidate(bool? instance, bool? original)
