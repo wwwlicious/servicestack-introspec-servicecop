@@ -4,10 +4,11 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.Tests
 {
+    using System;
     using FluentAssertions;
     using ServiceStack.IntroSpec.Models;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
+    using ServiceStack.Logging;
     using ServiceStack.Testing;
     using Xunit;
 
@@ -25,7 +26,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests
             
             runner.Register(basicAppHost);
             
-            var result = config.DtoRequestPostfixRule.Validator.Validate(new ApiResourceDocumentation { TypeName = "woo" });
+            var result = config.DtoRequestPostfixRule.CreateValidator().Validate(new ApiResourceDocumentation { TypeName = "woo" });
 
             result.IsValid.Should().BeFalse();
             var failure = result.Errors.Should().ContainSingle(x => x.PropertyName.EqualsIgnoreCase("TypeName")).Subject;

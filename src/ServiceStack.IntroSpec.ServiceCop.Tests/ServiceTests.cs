@@ -7,7 +7,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests
     using System;
     using FakeItEasy;
     using FluentAssertions;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
     using ServiceStack.Testing;
     using Xunit;

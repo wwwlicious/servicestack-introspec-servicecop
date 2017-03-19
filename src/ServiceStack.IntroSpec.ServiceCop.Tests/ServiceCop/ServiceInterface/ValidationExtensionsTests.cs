@@ -5,7 +5,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface
 {
     using FluentAssertions;
     using ServiceStack.FluentValidation;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
     using Xunit;
 
     public class ValidationExtensionsTests

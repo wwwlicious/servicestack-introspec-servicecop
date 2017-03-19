@@ -2,31 +2,28 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using Semver;
     using ServiceStack.FluentValidation;
     using ServiceStack.FluentValidation.Internal;
     using ServiceStack.FluentValidation.Validators;
 
     public static class ValidationExtensions
     {
-        private const string SemVerRegEx =
-            "/(?<=^[Vv]|^)(?:(?<major>(?:0|[1-9](?:(?:0|[1-9])+)*))[.](?<minor>(?:0|[1-9](?:(?:0|[1-9])+)*))[.](?<patch>(?:0|[1-9](?:(?:0|[1-9])+)*))(?:-(?<prerelease>(?:(?:(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?|(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?)|(?:0|[1-9](?:(?:0|[1-9])+)*))(?:[.](?:(?:(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?|(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?)|(?:0|[1-9](?:(?:0|[1-9])+)*)))*))?(?:[+](?<build>(?:(?:(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?|(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?)|(?:(?:0|[1-9])+))(?:[.](?:(?:(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?|(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)(?:[A-Za-z]|-)(?:(?:(?:0|[1-9])|(?:[A-Za-z]|-))+)?)|(?:(?:0|[1-9])+)))*))?)$/";
-
         /// <summary>
         /// Checks that a property has a valid semver string
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TProperty"></typeparam>
         /// <param name="ruleBuilder"></param>
         /// <returns></returns>
-        public static IRuleBuilderOptions<T, TProperty> SemVer<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder)
+        public static IRuleBuilderOptions<T, string> SemVer<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
-            return ruleBuilder.SetValidator(new RegularExpressionValidator(SemVerRegEx));
+            return ruleBuilder.Must(x => SemVersion.TryParse(x, out var semver, true));
         }
 
         /// <summary>
@@ -56,20 +53,30 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
             return ruleBuilder.SetValidator(new EqualValidator(func.CoerceToNonGeneric(), expression.GetMember(), StringComparer.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// Checks a string for a minimum number of words
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ruleBuilder"></param>
+        /// <param name="minimumWords"></param>
+        /// <returns></returns>
         public static IRuleBuilderOptions<T, string> MinimumWords<T>(
             this IRuleBuilderOptions<T, string> ruleBuilder, int minimumWords)
         {
             return ruleBuilder.SetValidator(new MinimumLengthValidator(minimumWords));
         }
 
+        /// <summary>
+        /// Checks a string collection to ensure there are no duplicates
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ruleBuilder"></param>
+        /// <returns></returns>
         public static IRuleBuilderOptions<T, IEnumerable<string>> NoDuplicates<T>(
             this IRuleBuilderOptions<T, IEnumerable<string>> ruleBuilder)
         {
-            return ruleBuilder.Must(x =>
-            {
-                var items = x.ToArray();
-                return items.Count() == items.Distinct().Count();
-            });
+            return ruleBuilder.Must(x => !x.Duplicates().Any())
+                .WithMessage("The following duplicates were found: {PlaceHolderValues}", (value, enumerable) => enumerable.Duplicates());
         }
     }
 }

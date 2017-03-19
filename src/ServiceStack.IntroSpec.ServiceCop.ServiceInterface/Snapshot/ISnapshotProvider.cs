@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
             // TODO for demo only add some snapshots
             this.Summaries = new List<SnapshotSummary>
                             {
-                                new SnapshotSummary()
+                                new SnapshotSummary
                                     {
                                         Id = "DtoName1",
                                         Created = DateTime.Today,

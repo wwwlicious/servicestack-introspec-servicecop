@@ -4,7 +4,7 @@
 namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface.Rules
 {
     using FluentAssertions;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
     using Xunit;
 
     public class RuleConfigTests
@@ -13,6 +13,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface.Ru
         public void Can_Initialise()
         {
             var ruleConfig = RuleConfig.Load();
+            ruleConfig.Save();
             ruleConfig.Rules.Should().ContainSingle(x => x.Id == RuleIds.DtoRequestPostfix);
         }
     }

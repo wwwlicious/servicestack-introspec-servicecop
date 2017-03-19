@@ -1,0 +1,27 @@
+{
+    "DtoRequestPostfixRule": {
+        "Value": "Request",
+        "Id": "IntroSpec.DtoRequestPostfix",
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "DtoRequestPrefixRule": {
+        "Id": "IntroSpec.DtoRequestPrefix",
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "PluginRule": {
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "RequestDocumentationRule": {
+        "MinimumTitleWords": 3,
+        "MinimumDescriptionWords": 3,
+        "TitleMustNotRepeatDtoType": true,
+        "DescriptionMustNotRepeatTitle": true,
+        "TagsMustNotBeRepeated": true,
+        "Id": "IntroSpec.RequestDocumentation",
+        "Enabled": true,
+        "Severity": "Error"
+    }
+}

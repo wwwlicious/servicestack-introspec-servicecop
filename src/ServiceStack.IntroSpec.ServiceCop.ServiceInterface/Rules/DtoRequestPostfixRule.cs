@@ -1,22 +1,24 @@
 ﻿// This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
+
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
+    using ServiceStack.FluentValidation;
+
     public class DtoRequestPostfixRule : AbstractRule
     {
         public DtoRequestPostfixRule()
         {
             Id = RuleIds.DtoRequestPostfix;
-            Category = "Naming";
-            Value = "Request";
+            Category = RuleCategories.Naming;
         }
 
-        public string Value { get; set; }
+        public string Value { get; set; } = "Request";
 
-        public override void CreateValidator()
+        public override IValidator CreateValidator()
         {
-            Validator = new DtoRequestPostfixValidator(Value, Severity);
+            return new DtoRequestPostfixValidator(Value, Severity);
         }
     }
 }

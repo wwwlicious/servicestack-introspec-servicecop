@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
     using Semver;
@@ -32,7 +32,6 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
 
         /// <summary>
         /// The version of ApiDocumentation it was registered with
-        /// TODO This being a string is problematic, should I create a semver class
         /// that can handle accurate sorts and enforce with servicecop validation?
         /// </summary>
         public SemVersion Version { get; set; }

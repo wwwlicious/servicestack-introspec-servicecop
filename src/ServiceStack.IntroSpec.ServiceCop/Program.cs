@@ -24,11 +24,15 @@ namespace ServiceStack.IntroSpec.ServiceCop
 
         private static ILogger CreateLogger()
         {
-            return new LoggerConfiguration()
+            // TODO Add enrichers
+            var logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .MinimumLevel.Verbose()
-                .WriteTo.LiterateConsole()
-                .CreateLogger();
+                .WriteTo.Seq("http://localhost:5341");
+
+            if (Environment.UserInteractive) logger.WriteTo.LiterateConsole();
+            Log.Logger = logger.CreateLogger();
+            return Log.Logger;
         }
     }
 }

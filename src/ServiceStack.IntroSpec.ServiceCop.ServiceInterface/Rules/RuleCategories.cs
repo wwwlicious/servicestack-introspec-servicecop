@@ -4,10 +4,11 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
-    using ServiceStack.IntroSpec.Models;
-
-    public interface ISpecProvider
+    public class RuleCategories
     {
-        ApiDocumentation GetSpec(string serviceUrl);
+        public const string Naming = "Naming";
+        public const string Documentation = "Documentation";
+        public const string Contract = "Contract";
+        public const string Security = "Security";
     }
 }

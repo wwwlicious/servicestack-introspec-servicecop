@@ -7,8 +7,8 @@
     <ProjectGuid>{130DED02-5984-487C-93DD-0D264EED140E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServiceStack.IntroSpec.ServiceCop.ServiceInterface</RootNamespace>
-    <AssemblyName>ServiceStack.IntroSpec.ServiceCop.ServiceInterface</AssemblyName>
+    <RootNamespace>ServiceStack.IntroSpec.ServiceCop.Core</RootNamespace>
+    <AssemblyName>ServiceStack.IntroSpec.ServiceCop.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,6 +36,9 @@
       <HintPath>..\packages\Semver.2.0.4\lib\net452\Semver.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.4.5.7\lib\net45\ServiceStack.dll</HintPath>
     </Reference>
@@ -48,6 +51,9 @@
     <Reference Include="ServiceStack.Discovery.Consul, Version=4.0.67.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Discovery.Consul.4.0.67\lib\net45\ServiceStack.Discovery.Consul.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Extras.Serilog, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Extras.Serilog.2.2.0\lib\net45\ServiceStack.Extras.Serilog.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Interfaces.4.5.7\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
@@ -78,6 +84,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="IStructuredLog.cs" />
+    <Compile Include="LoggingExtensions.cs" />
+    <Compile Include="Rules\ApiActionRule.cs" />
+    <Compile Include="Rules\NativeTypeRule.cs" />
+    <Compile Include="Rules\RequestDocumentationRule.cs" />
+    <Compile Include="Rules\RuleCategories.cs" />
+    <Compile Include="SerilogStructuredLogger.cs" />
     <Compile Include="Services\SnapshotService.cs" />
     <Compile Include="Spec\DefaultSpecProvider.cs" />
     <Compile Include="Discovery\DummyServiceProvider.cs" />
@@ -86,21 +100,22 @@
     <Compile Include="Snapshot\ISnapshotProvider.cs" />
     <Compile Include="Validators\ApiActionValidator.cs" />
     <Compile Include="Validators\NativeTypeValidator.cs" />
+    <Compile Include="Validators\PluginValidator.cs" />
     <Compile Include="Validators\RequestDocumentationValidator.cs" />
     <Compile Include="Validators\RequestNamingValidator.cs" />
     <Compile Include="Validators\ResponseEnumerableValidator.cs" />
     <Compile Include="Validators\ResponseUnboundedResultsetValidator.cs" />
-    <Compile Include="Rules\DtoRequestPostfixValidator.cs" />
-    <Compile Include="Rules\DtoRequestPrefixValidator.cs" />
+    <Compile Include="Validators\DtoRequestPostfixValidator.cs" />
+    <Compile Include="Validators\DtoRequestPrefixValidator.cs" />
     <Compile Include="Rules\PluginRule.cs" />
     <Compile Include="Rules\RuleIds.cs" />
-    <Compile Include="Rules\StringExtensions.cs" />
-    <Compile Include="Validation\SnapshotErrorCodes.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Snapshot\SnapshotErrorCodes.cs" />
     <Compile Include="Validators\SnapshotApiPropertyValidator.cs" />
     <Compile Include="Validators\ApiResourceValidator.cs" />
     <Compile Include="Services\IServiceValidator.cs" />
     <Compile Include="Spec\ISpecProvider.cs" />
-    <Compile Include="Services\SpecExtensions.cs" />
+    <Compile Include="Services\SpecComparers.cs" />
     <Compile Include="Discovery\TestDataService.cs" />
     <Compile Include="Services\ServiceCopService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,7 +132,7 @@
     <Compile Include="Rules\RuleConfig.cs" />
     <Compile Include="ServiceCopValidationFeature.cs" />
     <Compile Include="Validators\ValidateServiceRequestValidator.cs" />
-    <Compile Include="Validation\ValidationExtensions.cs" />
+    <Compile Include="Extensions\ValidationExtensions.cs" />
     <Compile Include="Validators\ValidatorStrictModeValidator.cs" />
   </ItemGroup>
   <ItemGroup>

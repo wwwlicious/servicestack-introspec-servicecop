@@ -1,4 +1,4 @@
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.Models;

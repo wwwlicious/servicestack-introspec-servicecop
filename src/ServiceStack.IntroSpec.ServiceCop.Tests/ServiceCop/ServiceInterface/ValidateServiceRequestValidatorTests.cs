@@ -6,7 +6,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface
     using System;
     using ServiceStack.FluentValidation;
     using ServiceStack.FluentValidation.TestHelper;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
 
     using Xunit;

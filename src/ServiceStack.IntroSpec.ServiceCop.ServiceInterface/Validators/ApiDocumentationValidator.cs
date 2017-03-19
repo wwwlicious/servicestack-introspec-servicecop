@@ -2,15 +2,12 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
-    using System.Linq;
     using Semver;
     using ServiceStack.FluentValidation;
-    using ServiceStack.FluentValidation.Validators;
     using ServiceStack.IntroSpec.Models;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
     using ServiceStack.IntroSpec.Validators;
 
     public class ApiDocumentationValidator : AbstractValidator<ApiDocumentation>
@@ -21,7 +18,8 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
             RuleFor(x => x.Contact).SetValidator(new ApiContactValidator());
 
             // enforces a strict semver 2.0.0 spec so that we can get reliable sorting for snapshots
-            RuleFor(x => x.ApiVersion).SemVer().Must(x => SemVersion.TryParse(x, out var semver, true))
+            RuleFor(x => x.ApiVersion)
+                .SemVer()
                 .WithErrorCode("ApiVersion")
                 .WithMessage("The api version `{0}` must be in semver v2.0.0 format to allow reliable sorting, see http://semver.org for details", x => x.ApiVersion);
 
@@ -34,7 +32,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
             // the main validators for each dto (ApiResourceDocumentation) are here
             RuleFor(x => x.Resources).SetCollectionValidator(new ApiResourceValidator(ruleConfig));
 
-            //RuleFor(x => x.Plugins));
+            RuleFor(x => x.Plugins).SetCollectionValidator(ruleConfig.PluginRule.CreateValidator() as IValidator<ApiPlugin>);
         }
     }
 }

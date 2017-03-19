@@ -2,26 +2,21 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.Models;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules;
-    using ServiceStack.NativeTypes;
 
     public class ApiResourceValidator : AbstractValidator<ApiResourceDocumentation>
     {
         public ApiResourceValidator(RuleConfig ruleConfig)
         {
             // Add validators for all rules applicable to ApiResourceDocumentation types
-            var resourceRules = ruleConfig.Rules.Where(x => x.Validator.CanValidateInstancesOfType(typeof(ApiResourceDocumentation)));
-            foreach (var resourceRule in resourceRules)
+            var validators = ruleConfig.Rules.Select(x => x.CreateValidator()).ToArray();
+            foreach (var validator in validators.ForValidating<ApiResourceDocumentation>())
             {
-                RuleFor(x => x).SetValidator(resourceRule.Validator as IValidator<ApiResourceDocumentation>).WithName("ApiResourceDocumentation");
+                RuleFor(x => x).SetValidator(validator).WithName("ApiResourceDocumentation");
             }
         }
     }

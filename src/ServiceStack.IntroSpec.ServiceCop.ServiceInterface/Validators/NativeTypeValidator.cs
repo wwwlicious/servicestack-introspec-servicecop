@@ -1,4 +1,4 @@
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.Models;
@@ -18,7 +18,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         {
             // Add CLR type string to ApiResourceDocumentation (DTO) and Response to make it easier to
             // check for native types?
-            //RuleFor(x => x.TypeName)
+            RuleFor(x => x.TypeName).Configure(rule =>
+            {
+                // myName.GetType().Module.ScopeName == "CommonLanguageRuntimeLibrary"
+            });
         }
     }
 }

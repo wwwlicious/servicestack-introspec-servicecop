@@ -7,9 +7,11 @@ namespace ServiceStack.IntroSpec.ServiceCop
     using Funq;
     using Serilog;
     using ServiceStack.Discovery.Consul;
+    using ServiceStack.Extras.Serilog;
     using ServiceStack.IntroSpec;
-    using ServiceStack.IntroSpec.ServiceCop.ServiceInterface;
+    using ServiceStack.IntroSpec.ServiceCop.Core;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
+    using ServiceStack.Logging;
     using ServiceStack.Validation;
 
     public class AppHost : AppSelfHostBase
@@ -35,6 +37,8 @@ namespace ServiceStack.IntroSpec.ServiceCop
         /// <param name="container">the ioc container</param>
         public override void Configure(Container container)
         {
+            LogManager.LogFactory = new SerilogFactory(logger);
+
             SetConfig(new HostConfig
             {
                 // the url:port that other services will use to access this one
@@ -45,6 +49,7 @@ namespace ServiceStack.IntroSpec.ServiceCop
             Plugins.Add(new ConsulFeature());
             Plugins.Add(new ValidationFeature());
             Plugins.Add(new IntroSpecFeature());
+            Plugins.Add(new ServiceCopValidationFeature(RuleConfig.Load()));
 
             RegisterServicesInAssembly(typeof(ServiceCopService).Assembly);
 

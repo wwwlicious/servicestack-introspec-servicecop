@@ -1,4 +1,4 @@
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System.Linq;
     using ServiceStack.FluentValidation;
@@ -18,7 +18,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface
         {
             // checks for an numeric property named skip if any property is a collection type
             RuleFor(x => x.ReturnType.Properties)
-                .Must(x => x.Any(prop => StringExtensions.EqualsIgnoreCase(prop.Title, "Skip") && ReflectionExtensions.IsNumericType(prop.ClrType)))
+                .Must(x => x.Any(prop => ServiceStack.StringExtensions.EqualsIgnoreCase(prop.Title, "Skip") && ReflectionExtensions.IsNumericType(prop.ClrType)))
                 .When(x => x.ReturnType.Properties.Any(prop => prop.IsCollection.Value == true));
 
             // checks for an numeric property named skip if any property is a collection type

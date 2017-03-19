@@ -1,18 +1,23 @@
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using ServiceStack.FluentValidation;
 
     public class PluginRule : AbstractRule
     {
-        public string Category { get; }
-
-        public IValidator Validator { get; set; }
+        public PluginRule()
+        {
+            Category = RuleCategories.Contract;
+        }
 
         public MinimumPluginVersion[] MinimumPluginVersions { get; set; }
 
-        public override void CreateValidator()
+        public override IValidator CreateValidator()
         {
-            //Validator = new PluginValidator(MinimumPluginVersions);
+            return new PluginValidator(this);
         }
 
         public class MinimumPluginVersion

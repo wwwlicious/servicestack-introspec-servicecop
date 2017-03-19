@@ -2,19 +2,20 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/. 
 
-namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
+namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
     using ServiceStack.Logging;
+    using ServiceStack.Text;
 
     public class RuleConfig
     {
         private const string ConfigFileName = "introspec.json";
 
-        private static readonly ILog logger = LogManager.GetLogger(typeof(RuleConfig));
+        private static readonly IStructuredLog logger = LogManager.LogFactory.GetStructuredLog();
 
         protected RuleConfig()
         {
@@ -22,10 +23,11 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
         }
 
         public DtoRequestPostfixRule DtoRequestPostfixRule { get; set; } = new DtoRequestPostfixRule();
-
         public DtoRequestPrefixRule DtoRequestPrefixRule { get; set; } = new DtoRequestPrefixRule();
-
+        public RequestDocumentationRule RequestDocumentationRule { get; set; } = new RequestDocumentationRule();
         public PluginRule PluginRule { get; set; } = new PluginRule();
+        public ApiActionRule ApiActionRule { get; set; } = new ApiActionRule();
+        public NativeTypeRule NativeTypeRule { get; set; } = new NativeTypeRule();
 
         [IgnoreDataMember]
         public AbstractRule[] Rules
@@ -38,7 +40,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
                         .Where(x => x.PropertyType.IsInstanceOf(typeof(AbstractRule)))
                         .Select(x => x.GetValue(this))
                         .Cast<AbstractRule>()
-                        .Where(x => x.Enabled).ToArray();
+                        .Where(x => x != null && x.Enabled).ToArray();
             }
         }
 
@@ -55,11 +57,11 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
             }
             catch (FileNotFoundException ex)
             {
-                logger.Warn($"{ex.FileName} was not found, loading defaults");
+                logger.Warn(ex, "{FileName} was not found, loading defaults", ex.FileName);
             }
             catch (Exception ex)
             {
-                logger.Error($"Error loading introspec config from {ConfigFileName}, file appears invalid");
+                logger.Error(ex, "Error loading introspec config from {FileName}, file appears invalid", ConfigFileName);
             }
             var config = result ?? new RuleConfig();
             
@@ -76,7 +78,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceInterface.Rules
         /// </summary>
         public void Save()
         {
-            File.WriteAllText(ConfigFileName, this.ToJson());
+            File.WriteAllText(ConfigFileName, this.ToJson().IndentJson());
         }
     }
 }
