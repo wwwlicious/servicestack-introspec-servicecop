@@ -13,16 +13,11 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         public ApiResourceValidator(RuleConfig ruleConfig)
         {
             // Add validators for all rules applicable to ApiResourceDocumentation types
-            var validators = ruleConfig.Rules.Select(x => x.CreateValidator()).ToArray();
+            var validators = ruleConfig.Validators;
             foreach (var validator in validators.ForValidating<ApiResourceDocumentation>())
             {
-                RuleFor(x => x).SetValidator(validator).WithName("ApiResourceDocumentation");
+                RuleFor(x => x).SetValidator(validator).WithName(validator.GetType().Name);
             }
         }
     }
-
-    // rules 
-
-    // DTO's with Enforce Validators mode must have a validator (HasValidator prop)
-    // TODO Add a custom message provider to append help doc url to messages
 }

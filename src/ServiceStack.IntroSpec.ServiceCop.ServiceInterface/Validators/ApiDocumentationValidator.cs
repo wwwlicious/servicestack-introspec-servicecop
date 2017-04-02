@@ -5,7 +5,6 @@
 namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
-    using Semver;
     using ServiceStack.FluentValidation;
     using ServiceStack.IntroSpec.Models;
     using ServiceStack.IntroSpec.Validators;
@@ -32,7 +31,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
             // the main validators for each dto (ApiResourceDocumentation) are here
             RuleFor(x => x.Resources).SetCollectionValidator(new ApiResourceValidator(ruleConfig));
 
-            RuleFor(x => x.Plugins).SetCollectionValidator(ruleConfig.PluginRule.CreateValidator() as IValidator<ApiPlugin>);
+            //RuleFor(x => x.Plugins).SetCollectionValidator(ruleConfig.PluginRule.CreateValidator() as IValidator<ApiPlugin>);
         }
     }
 }

@@ -16,7 +16,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
     {
         public ResponseEnumerableValidator()
         {
-            RuleFor(x => x.ReturnType.IsCollection).Must(r => r.Value == false);
+            When(x => x.ReturnType != null, () =>
+            {
+                RuleFor(x => x.ReturnType.IsCollection).Must(r => r != null && r.Value == false);
+            });
         }
     }
 }

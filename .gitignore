@@ -22,6 +22,7 @@
 bld/
 [Bb]in/
 [Oo]bj/
+symbols
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -241,3 +242,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/symbols/symbols
+/symbols/symbols
+*.metaproj

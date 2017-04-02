@@ -5,9 +5,11 @@
 namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
+    using ServiceStack.FluentValidation;
     using ServiceStack.Logging;
     using ServiceStack.Text;
 
@@ -16,6 +18,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         private const string ConfigFileName = "introspec.json";
 
         private static readonly IStructuredLog logger = LogManager.LogFactory.GetStructuredLog();
+        private static List<IValidator> validators = new List<IValidator>();
 
         protected RuleConfig()
         {
@@ -28,6 +31,11 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         public PluginRule PluginRule { get; set; } = new PluginRule();
         public ApiActionRule ApiActionRule { get; set; } = new ApiActionRule();
         public NativeTypeRule NativeTypeRule { get; set; } = new NativeTypeRule();
+        public RequestNameLengthRule RequestNameLengthRule { get; set; } = new RequestNameLengthRule();
+        public RequestResponsePairRule RequestResponsePairRule { get; set; } = new RequestResponsePairRule();
+        public ResponseEnumerableRule ResponseEnumerableRule { get; set; } = new ResponseEnumerableRule();
+        public ResponseUnboundedResultsRule ResponseUnboundedResultsRule { get; set; } = new ResponseUnboundedResultsRule();
+        public EnforceRequestValidationRule EnforceRequestValidationRule { get; set; } = new EnforceRequestValidationRule();
 
         [IgnoreDataMember]
         public AbstractRule[] Rules
@@ -44,6 +52,9 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
             }
         }
 
+        [IgnoreDataMember]
+        public IValidator[] Validators => validators.ToArray();
+
         /// <summary>
         /// Loads rule config from the default config file name if found
         /// </summary>
@@ -51,6 +62,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         public static RuleConfig Load()
         {
             RuleConfig result = null;
+            logger.Debug("Loading servicecop config from {ConfigFile}", ConfigFileName);
             try
             {
                 result = File.ReadAllText(ConfigFileName).FromJson<RuleConfig>();
@@ -66,9 +78,9 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
             var config = result ?? new RuleConfig();
             
             // validators need to be created after the rule values are set
-            foreach (var rule in config.Rules.Where(x => x.Enabled))
+            foreach (var rule in config.Rules)
             {
-                rule.CreateValidator();
+                validators.Add(rule.CreateValidator());
             }
             return config;
         }

@@ -9,10 +9,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
 
     public class ServiceValidator : IServiceValidator
     {
-        public ServiceValidator()
+        public ServiceValidator(RuleConfig config)
         {
             // Validators are configured/enabled via an introspec.json file
-            var config = RuleConfig.Load();
+            // TODO Add a custom message provider to validators append help doc url to messages
             Validator = new ApiDocumentationValidator(config);
         }
 

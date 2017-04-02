@@ -10,10 +10,6 @@
         "Enabled": true,
         "Severity": "Error"
     },
-    "PluginRule": {
-        "Enabled": true,
-        "Severity": "Error"
-    },
     "RequestDocumentationRule": {
         "MinimumTitleWords": 3,
         "MinimumDescriptionWords": 3,
@@ -21,6 +17,42 @@
         "DescriptionMustNotRepeatTitle": true,
         "TagsMustNotBeRepeated": true,
         "Id": "IntroSpec.RequestDocumentation",
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "PluginRule": {
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "ApiActionRule": {
+        "Id": "Wah",
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "NativeTypeRule": {
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "RequestNameLengthRule": {
+        "MinimumRequestNameWords": 3,
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "RequestResponsePairRule": {
+        "ResponsePostfix": "Response",
+        "RequestPostfix": "Request",
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "ResponseEnumerableRule": {
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "ResponseUnboundedResultsRule": {
+        "Enabled": true,
+        "Severity": "Error"
+    },
+    "EnforceRequestValidationRule": {
         "Enabled": true,
         "Severity": "Error"
     }

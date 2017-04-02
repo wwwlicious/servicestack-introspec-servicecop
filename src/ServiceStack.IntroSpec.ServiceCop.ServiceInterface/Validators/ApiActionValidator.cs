@@ -16,9 +16,9 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         public ApiActionValidator()
         {
             // TODO Will need to add config, ability to add exceptions etc
-            RuleFor(x => x.Security)
-                .Must(x => x.IsProtected)
-                .WithMessage("{0} is not protected from anonymous callers", action => action.Verb);
+            //RuleFor(x => x.Security)
+            //    .Must(x => x.IsProtected)
+            //    .WithMessage("{0} is not protected from anonymous callers", action => action.Verb);
         }
     }
 }

@@ -58,12 +58,15 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ruleBuilder"></param>
-        /// <param name="minimumWords"></param>
+        /// <param name="minimumWords">the minimum number of words the string should contain</param>
+        /// <param name="splitCamelCase">Will split any CamelCase words</param>
         /// <returns></returns>
         public static IRuleBuilderOptions<T, string> MinimumWords<T>(
-            this IRuleBuilderOptions<T, string> ruleBuilder, int minimumWords)
+            this IRuleBuilder<T, string> ruleBuilder, int minimumWords, bool splitCamelCase = false)
         {
-            return ruleBuilder.SetValidator(new MinimumLengthValidator(minimumWords));
+            return ruleBuilder.Must(x => splitCamelCase ? x.SplitCamelCase().Split().Length >= minimumWords : x.Split(' ').Length >= minimumWords)
+                .WithErrorCode("MinimumWords")
+                .WithMessage($"{{PropertyName}} must have at least {minimumWords} words");
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         /// <param name="ruleBuilder"></param>
         /// <returns></returns>
         public static IRuleBuilderOptions<T, IEnumerable<string>> NoDuplicates<T>(
-            this IRuleBuilderOptions<T, IEnumerable<string>> ruleBuilder)
+            this IRuleBuilder<T, IEnumerable<string>> ruleBuilder)
         {
             return ruleBuilder.Must(x => !x.Duplicates().Any())
                 .WithMessage("The following duplicates were found: {PlaceHolderValues}", (value, enumerable) => enumerable.Duplicates());

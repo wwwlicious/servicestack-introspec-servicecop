@@ -13,14 +13,14 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
     /// when presented alongside thousands or other DTO names for discovery and reduces the changes
     /// of name collisions between services
     /// </summary>
-    public class RequestNamingValidator : AbstractValidator<ApiResourceDocumentation>
+    public class RequestNameLengthValidator : AbstractValidator<ApiResourceDocumentation>
     {
-        public RequestNamingValidator()
+        public RequestNameLengthValidator(int minRequestNameWords)
         {
-            // TODO make minimum length configurable via rule
             // TODO optional, potential restricted dto naming or word list?
-            int minRequestNameLength = 3;
-            RuleFor(x => x.TypeName).Must(name => name.SplitCamelCase().Length >= minRequestNameLength);
+            RuleFor(x => x.TypeName).NotEmpty().MinimumWords(minRequestNameWords, true)
+                .WithMessage($"The request name must have a minimum of {minRequestNameWords} words");
+
         }
     }
 }

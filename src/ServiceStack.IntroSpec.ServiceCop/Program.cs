@@ -30,7 +30,8 @@ namespace ServiceStack.IntroSpec.ServiceCop
                 .MinimumLevel.Verbose()
                 .WriteTo.Seq("http://localhost:5341");
 
-            if (Environment.UserInteractive) logger.WriteTo.LiterateConsole();
+            if (Environment.UserInteractive)
+                logger.WriteTo.LiterateConsole();
             Log.Logger = logger.CreateLogger();
             return Log.Logger;
         }

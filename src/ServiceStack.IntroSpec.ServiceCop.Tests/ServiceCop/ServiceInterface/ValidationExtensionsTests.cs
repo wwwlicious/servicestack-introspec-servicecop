@@ -37,6 +37,30 @@ namespace ServiceStack.IntroSpec.ServiceCop.Tests.ServiceCop.ServiceInterface
             result.Errors.Should().ContainSingle();
         }
 
+        [Theory]
+        [InlineData("testValue", 3, true)]
+        [InlineData("test value", 3, true)]
+        [InlineData("test value", 3, true)]
+        [InlineData("testValue", 2, false)]
+        [InlineData("testValue value", 3, false)]
+        [InlineData("", 2, false)]
+        public void MinimumWords_FailIfNull(string value, int minWords, bool splitCamelCase)
+        {
+            var validator = new TestValidator();
+            validator.RuleFor(x => x).MinimumWords(minWords, splitCamelCase);
+            var result = validator.Validate(value);
+
+            result.IsValid.Should().BeFalse();
+            result.Errors.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void FactMethodName()
+        {
+            "".SplitCamelCase().Should().Be("");
+            "".Split(' ').Length.Should().Be(1);
+        }
+
         public class TestValidator : AbstractValidator<string> { }
     }
 }

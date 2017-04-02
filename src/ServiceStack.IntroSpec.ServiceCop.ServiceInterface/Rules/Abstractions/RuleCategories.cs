@@ -10,5 +10,6 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         public const string Documentation = "Documentation";
         public const string Contract = "Contract";
         public const string Security = "Security";
+        public const string Design = "Design";
     }
 }

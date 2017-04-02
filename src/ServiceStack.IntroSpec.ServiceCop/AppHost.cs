@@ -46,20 +46,21 @@ namespace ServiceStack.IntroSpec.ServiceCop
                 EnableFeatures = Feature.All.Remove(Feature.Soap)
             });
 
-            Plugins.Add(new ConsulFeature());
+            //Plugins.Add(new ConsulFeature());
             Plugins.Add(new ValidationFeature());
             Plugins.Add(new IntroSpecFeature());
-            Plugins.Add(new ServiceCopValidationFeature(RuleConfig.Load()));
-
-            RegisterServicesInAssembly(typeof(ServiceCopService).Assembly);
+            //Plugins.Add(new ServiceCopValidationFeature(RuleConfig.Load()));
 
             // TODO Replace with ConsulServiceProvider
             RegisterAs<DummyServiceProvider, IServiceProvider<ServiceDetail>>();
             RegisterAs<DefaultSpecProvider, ISpecProvider>();
-            RegisterAs<ServiceValidator, IServiceValidator>();
+            var serviceValidator = new ServiceValidator(RuleConfig.Load());
+            Register<IServiceValidator>(serviceValidator);
+
+            //RegisterServicesInAssembly(typeof(ServiceCopService).Assembly);
 
             // TODO Remove, for testing only
-            Register(new TestDataService());
+            //Register(new TestDataService());
 
             // validator for introspec servicecop requests
             container.RegisterValidators(typeof(ValidateServiceRequestValidator).Assembly);

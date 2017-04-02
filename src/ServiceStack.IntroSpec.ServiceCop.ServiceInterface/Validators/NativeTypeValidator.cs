@@ -18,10 +18,10 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
         {
             // Add CLR type string to ApiResourceDocumentation (DTO) and Response to make it easier to
             // check for native types?
-            RuleFor(x => x.TypeName).Configure(rule =>
-            {
-                // myName.GetType().Module.ScopeName == "CommonLanguageRuntimeLibrary"
-            });
+            //RuleFor(x => x.TypeName).Configure(rule =>
+            //{
+                //// myName.GetType().Module.ScopeName == "CommonLanguageRuntimeLibrary"
+            //});
         }
     }
 }

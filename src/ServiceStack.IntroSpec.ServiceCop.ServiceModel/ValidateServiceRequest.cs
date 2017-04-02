@@ -10,7 +10,7 @@ namespace ServiceStack.IntroSpec.ServiceCop.ServiceModel
     /// Validates a service
     /// </summary>
     /// <remarks>specific only one value in order of precedence: id > url > json</remarks>
-    public class ValidateServiceRequest : IReturn<ValidateServiceResponse>
+    public class ValidateServiceRequest : IReturn<ValidateServiceResponse>, IPost
     {
         /// <summary>
         /// Validates a service using the consul service registration Id

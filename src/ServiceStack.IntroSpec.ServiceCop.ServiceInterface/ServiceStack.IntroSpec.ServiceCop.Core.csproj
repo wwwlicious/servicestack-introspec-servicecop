@@ -39,14 +39,14 @@
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.4.5.7\lib\net45\ServiceStack.dll</HintPath>
+    <Reference Include="ServiceStack, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.4.5.9\lib\net45\ServiceStack.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Client, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Client.4.5.7\lib\net45\ServiceStack.Client.dll</HintPath>
+    <Reference Include="ServiceStack.Client, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Client.4.5.9\lib\net45\ServiceStack.Client.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Common, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Common.4.5.7\lib\net45\ServiceStack.Common.dll</HintPath>
+    <Reference Include="ServiceStack.Common, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Common.4.5.9\lib\net45\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Discovery.Consul, Version=4.0.67.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Discovery.Consul.4.0.67\lib\net45\ServiceStack.Discovery.Consul.dll</HintPath>
@@ -56,22 +56,22 @@
       <HintPath>..\packages\ServiceStack.Extras.Serilog.2.2.0\lib\net45\ServiceStack.Extras.Serilog.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Interfaces.4.5.7\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Interfaces.4.5.9\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.IntroSpec, Version=4.0.36.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.IntroSpec.4.0.36\lib\net45\ServiceStack.IntroSpec.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.OrmLite.4.5.7\lib\net45\ServiceStack.OrmLite.dll</HintPath>
+    <Reference Include="ServiceStack.OrmLite, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.OrmLite.4.5.9\lib\net45\ServiceStack.OrmLite.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Redis, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Redis.4.5.7\lib\net45\ServiceStack.Redis.dll</HintPath>
+    <Reference Include="ServiceStack.Redis, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.4.5.9\lib\net45\ServiceStack.Redis.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Server, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Server.4.5.7\lib\net45\ServiceStack.Server.dll</HintPath>
+    <Reference Include="ServiceStack.Server, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Server.4.5.9\lib\net45\ServiceStack.Server.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text, Version=4.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Text.4.5.7\lib\net45\ServiceStack.Text.dll</HintPath>
+    <Reference Include="ServiceStack.Text, Version=4.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.4.5.9\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net" />
@@ -88,9 +88,14 @@
     <Compile Include="IStructuredLog.cs" />
     <Compile Include="LoggingExtensions.cs" />
     <Compile Include="Rules\ApiActionRule.cs" />
+    <Compile Include="Rules\EnforceRequestValidationRule.cs" />
     <Compile Include="Rules\NativeTypeRule.cs" />
     <Compile Include="Rules\RequestDocumentationRule.cs" />
-    <Compile Include="Rules\RuleCategories.cs" />
+    <Compile Include="Rules\Abstractions\RuleCategories.cs" />
+    <Compile Include="Rules\RequestNamingValidator.cs" />
+    <Compile Include="Rules\RequestResponsePairRule.cs" />
+    <Compile Include="Rules\ResponseEnumerableRule.cs" />
+    <Compile Include="Rules\ResponseUnboundedResultsRule.cs" />
     <Compile Include="SerilogStructuredLogger.cs" />
     <Compile Include="Services\SnapshotService.cs" />
     <Compile Include="Spec\DefaultSpecProvider.cs" />
@@ -100,15 +105,17 @@
     <Compile Include="Snapshot\ISnapshotProvider.cs" />
     <Compile Include="Validators\ApiActionValidator.cs" />
     <Compile Include="Validators\NativeTypeValidator.cs" />
+    <Compile Include="Validators\OneWayRequestValidator.cs" />
     <Compile Include="Validators\PluginValidator.cs" />
     <Compile Include="Validators\RequestDocumentationValidator.cs" />
-    <Compile Include="Validators\RequestNamingValidator.cs" />
+    <Compile Include="Validators\RequestResponsePairValidator.cs" />
+    <Compile Include="Validators\RequestNameLengthValidator.cs" />
     <Compile Include="Validators\ResponseEnumerableValidator.cs" />
     <Compile Include="Validators\ResponseUnboundedResultsetValidator.cs" />
     <Compile Include="Validators\DtoRequestPostfixValidator.cs" />
     <Compile Include="Validators\DtoRequestPrefixValidator.cs" />
     <Compile Include="Rules\PluginRule.cs" />
-    <Compile Include="Rules\RuleIds.cs" />
+    <Compile Include="Rules\Abstractions\RuleIds.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Snapshot\SnapshotErrorCodes.cs" />
     <Compile Include="Validators\SnapshotApiPropertyValidator.cs" />
@@ -124,16 +131,16 @@
     <Compile Include="Snapshot\SnapshotSummary.cs" />
     <Compile Include="Snapshot\SnapshotValidationResult.cs" />
     <Compile Include="Validators\ApiDocumentationValidator.cs" />
-    <Compile Include="Rules\AbstractRule.cs" />
+    <Compile Include="Rules\Abstractions\AbstractRule.cs" />
     <Compile Include="Rules\DtoRequestPrefixRule.cs" />
     <Compile Include="Rules\DtoRequestPostfixRule.cs" />
-    <Compile Include="Rules\IRuleConfig.cs" />
-    <Compile Include="Rules\IRule.cs" />
-    <Compile Include="Rules\RuleConfig.cs" />
+    <Compile Include="Rules\Abstractions\IRuleConfig.cs" />
+    <Compile Include="Rules\Abstractions\IRule.cs" />
+    <Compile Include="Rules\Abstractions\RuleConfig.cs" />
     <Compile Include="ServiceCopValidationFeature.cs" />
     <Compile Include="Validators\ValidateServiceRequestValidator.cs" />
     <Compile Include="Extensions\ValidationExtensions.cs" />
-    <Compile Include="Validators\ValidatorStrictModeValidator.cs" />
+    <Compile Include="Validators\EnforceRequestValidationValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

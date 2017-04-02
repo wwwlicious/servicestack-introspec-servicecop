@@ -16,15 +16,22 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
     {
         public ResponseUnboundedResultsetValidator()
         {
-            // checks for an numeric property named skip if any property is a collection type
-            RuleFor(x => x.ReturnType.Properties)
-                .Must(x => x.Any(prop => ServiceStack.StringExtensions.EqualsIgnoreCase(prop.Title, "Skip") && ReflectionExtensions.IsNumericType(prop.ClrType)))
-                .When(x => x.ReturnType.Properties.Any(prop => prop.IsCollection.Value == true));
+            When(x => x.ReturnType != null, () =>
+            {
+                // checks for an numeric property named skip if any property is a collection type
+                RuleFor(x => x.ReturnType.Properties)
+                    .Must(x => x.Any(prop => prop.Title.EqualsIgnoreCase("Skip") && prop.ClrType.IsNumericType()))
+                    .When(x => x.ReturnType.Properties.Any(prop => prop.IsCollection != null && prop.IsCollection.Value))
+                    .WithErrorCode("UnboundedResultWithoutPaging")
+                    .WithMessage("The return type contains a collection property without also including paging");
 
-            // checks for an numeric property named skip if any property is a collection type
-            RuleFor(x => x.ReturnType.Properties)
-                .Must(x => x.Any(prop => prop.Title.EqualsIgnoreCase("Take") && prop.ClrType.IsNumericType()))
-                .When(x => x.ReturnType.Properties.Any(prop => prop.IsCollection.Value == true));
+                // checks for an numeric property named skip if any property is a collection type
+                RuleFor(x => x.ReturnType.Properties)
+                    .Must(x => x.Any(prop => prop.Title.EqualsIgnoreCase("Take") && prop.ClrType.IsNumericType()))
+                    .When(x => x.ReturnType.Properties.Any(prop => prop.IsCollection != null && prop.IsCollection.Value))
+                    .WithErrorCode("UnboundedResultWithoutPaging")
+                    .WithMessage("The return type contains a collection property without also including paging");
+            });
         }
     }
 }

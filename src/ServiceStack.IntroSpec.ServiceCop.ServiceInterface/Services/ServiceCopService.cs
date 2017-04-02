@@ -4,8 +4,10 @@
 
 namespace ServiceStack.IntroSpec.ServiceCop.Core
 {
+    using System;
     using System.IO;
     using ServiceStack.Discovery.Consul;
+    using ServiceStack.FluentValidation.Results;
     using ServiceStack.IntroSpec.Models;
     using ServiceStack.IntroSpec.ServiceCop.ServiceModel;
 
@@ -63,7 +65,16 @@ namespace ServiceStack.IntroSpec.ServiceCop.Core
             }
 
             // pass to validator
-            var validationResult = ServiceValidator.Validate(documentation);
+            ValidationResult validationResult;
+            try
+            {
+                validationResult = ServiceValidator.Validate(documentation);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             return new ValidateServiceResponse
             {
                 Result = new SpecValidationResult(validationResult)
